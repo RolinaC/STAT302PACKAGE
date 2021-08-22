@@ -16,3 +16,12 @@ You can install the released version of STAT302PACKAGE from GitHub using:
 install.packages("STAT302PACKAGE")
 ```
 
+To view vignettes, run the following code:
+```{r}
+devtools::install_github("RolinaC/STAT302PACKAGE", build_vignette = TRUE, build_opts = c())
+library(Demo)
+# Use this to view the vignette in the Demo HTML help
+help(package = "STAT302PACKAGE", help_type = "html")
+# Use this to view the vignette as an isolated HTML file
+utils::browseVignettes(package = "STAT302PACKAGE")
+```
