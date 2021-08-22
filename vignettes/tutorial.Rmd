@@ -3,7 +3,7 @@ title: "Project 3: STAT302PACKAGE Tutorial"
 author: "Rolina Cao"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Project 3: PACKAGE_NAME Tutorial}
+  %\VignetteIndexEntry{Project 3: STAT302PACKAGE Tutorial}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
