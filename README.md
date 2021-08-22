@@ -10,7 +10,7 @@ The goal of STAT302PACKAGE is to demonstrate how to build a package
 
 ## Installation
 
-You can install the released version of STAT302PACKAGE from Github using:
+You can install the released version of STAT302PACKAGE from GitHub using:
 
 ``` r
 install.packages("STAT302PACKAGE")
