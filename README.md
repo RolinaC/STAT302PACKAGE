@@ -15,12 +15,3 @@ You can install the released version of STAT302PACKAGE from [CRAN](https://CRAN.
 install.packages("STAT302PACKAGE")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-``` r
-library(STAT302PACKAGE)
-## basic example code
-```
-
