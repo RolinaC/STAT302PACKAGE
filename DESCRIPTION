@@ -1,6 +1,6 @@
 Package: STAT302PACKAGE
 Title: Stat 302 package
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R: 
     person(given = "Rolina",
            family = "Cao",
