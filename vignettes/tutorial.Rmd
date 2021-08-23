@@ -83,6 +83,7 @@ two_side <- my_t_test(my_gapminder$lifeExp, "two.sided", 60)
 ```
 The p-value, `r two_side$p_val`, is greater than a (a = 0.05), which cannot reject the null hypothesis, meaning there is not much evidence to support the alternative hypothesis.
 
+### One-side Test
 
 Second, we demonstrate two single-tailed tests of the hypothesis, one lower tail and one upper tail. Both has the null hypothesis saying 60 indicating the mean life expectancy is 60 years. The lower-tail alternative hypothesis holds that the life expectancy is less than 60 years and the upper-tail alternative hypothesis holds that the life expectancy is greater than 60 years.
 
