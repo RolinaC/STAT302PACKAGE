@@ -7,6 +7,27 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+<!--- Begin styling code. --->
+<style type="text/css">
+/* Whole document: */
+body{
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+  font-size: 12pt;
+}
+h1.title {
+  font-size: 38px;
+  text-align: center;
+}
+h4.author {
+  font-size: 18px;
+  text-align: center;
+}
+h4.date {
+  font-size: 18px;
+  text-align: center;
+}
+</style>
+<!--- End styling code. --->
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -15,9 +36,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r}
-library(STAT302PACKAGE)
-```
 
 # Introduction
 
@@ -31,10 +49,14 @@ This package contains four functions:\
 
 To install and use this package, run the following lines of code in console:
 
-```{r, eval=FALSE}
+```{r, setup, eval=FALSE}
 # install and load package
 devtools::install_github("RolinaC/STAT302PACKAGE")
 library(STAT302PACKAGE)
+
+library(ggplot2)
+library(dplyr)
+library(kableExtra)
 ```
 
 Here are what we need for data
@@ -72,3 +94,117 @@ The upper -trail p-value, `r up$p_val`, is greater than a (a = 0.05), which cann
 # my_lm Tutorial
 Here, we demonstrate a regression using 'lifeExp' as the response variable and 'gdpPercap' and continent as explanatory variables, all from 'my_gapminder'.
 
+```{r}
+# run the my_lm to get statistics
+eqn <- my_lm(lifeExp ~ gdpPercap + continent, data = my_gapminder)
+eqn
+```
+
+Let's define what the estimated coefficient means under this condition:
+* Estimated coefficient : the expected change in 'lifeExp' per unit change in GDP per capita, holding all other variables constant.\
+By above model, we know that the estimated coefficient on 'gdpPercap' is `r eqn[2, 1]`. \
+
+Now, let's plot the model and explore more information on this. 
+
+```{r}
+#get data to be fitted
+X <- model.matrix(lifeExp ~ gdpPercap + continent, data = my_gapminder)
+# calculate the actual
+y_hat <- x %*% eqn$Estimate
+y <- my_gapminder$lifeExp
+
+df <- as.data.frame(cbind(y_hat, y))
+ggplot2::ggplot(df, ggplot2::aes(x = y, y = y_hat)) +
+  ggplot2::geom_point() +
+  ggplot2::geom_abline(slope = 1, intercept = 0, col = "blue") + 
+  ggplot2::labs(title = "Actual vs. Fitted", x = "Actual", y = "Fitted") +
+  ggplot2::theme_bw() +
+  ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
+df
+```
+
+Accordng to the graph, we can conclude that the model follows an excellent linear relationship since points are plotted on the best fit line.
+
+# my_knn_cv Tutorial
+
+Here, we use the 'my_knn_cv' function to predict a output class of species by using covariates: bill_length_mm, bill_depth_mm, flipper_length_mm, and body_mass_g. Now let's use 5-fold cross validation (k_cv = 5) from k_nn = 1 to k_nn = 10 to analyze. 
+
+Let's define what the K-fold cross-validation means under this condition:
+
+* Split data into k parts (folds)
+* Use all but 1 fold as your training data and fit the model
+* Use the remaining fold for your test data and make predictions
+* Switch which fold is your test data and repeat steps 2 and 3 until all folds have been test data (k times)
+* Compute squared error
+* Commonly, we use k = 5 and k = 10
+
+```{r}
+# clear data
+train <- na.omit(my_penguins)
+# pull cl from train
+cl <- dplyr::pull(train, var = "species")
+
+train <- dplyr::select(train, 3:6)
+# store CV miss-classification rate
+cv_err <- base::rep(NA, 10)
+# store training miss-classification rate
+train_err <- base::rep(NA, 10)
+  
+for (i in 1:10) {
+  # compute and store the CV err
+  result <- STAT302PACKAGE::my_knn_cv(train, cl, i, 5)
+  cv_err[i] <- result[["cv_error"]]
+  # compute and store the train err
+  train_err[i] <- mean(result[["class"]] != cl)
+}
+
+knn_val <- c(1:10)
+
+df <- data.frame(knn_val, train_err, cv_err)
+colnames(df) <- c("k_nn", "training error", "CV error")
+# style the table
+kableExtra::kable_styling(knitr::kable(my_df))
+  
+```
+
+* Note we use 'mse' to abbreviate missclassification error.
+
+Based on the above function, it is rational to choose k_nn to be 1. The reason is that, at k_nn = 1, we have the smallest training mse rate and cv mse rate. 
+
+# my_rf_cv Tutorial
+Here we will manipulate the my_rf_cv to run a random forest cross-validation to predict the 'body_mess_g' by referring to the covariates: bill_length_mm, bill_depth_mm, and flipper_length_mm. We will take k to be 2, 5, and 10 and  run the function 30 times to get the statistics.
+
+```{r}
+# create an empty matrix
+result <- matrix(NA, nrow = 30, ncol = 3)
+for (k in c(2, 5, 10)) {
+  for (i in 1:30) {
+    for (j in 1:3){
+      result[i, j] <- my_rf_cv(k)
+    }
+  }
+}
+
+df <- as.data.frame(result)
+colnames(df) <- c("k = 2", "k = 5", "k = 10")
+
+#plot the simulations
+plot_df <- as.data.frame(matrix(NA, nrow = 90, ncol = 2))
+n <- c(df$`k = 2`, df$`k = 5`, df$`k = 10`)
+plot_df[, 1] <- cbind(n)
+plot_df[, 2] <- cbind(rep(c("2", "5", "10"), each = 30))
+colnames(plot_df) <- c("mse", "k")
+
+plot <- ggplot2::ggplot(data = plot_df, 
+              aes(x = k, y = mse)) +
+         ggplot2::geom_boxplot(fill = "lightblue") +
+         ggplot2::scale_x_discrete(limits = c("2", "5", "10")) +
+         ggplot2::labs(title = "Distribution of CV estimated MSE by number of                         folds", x = "Number of folds", 
+                       y = "CV estimated MSE") +
+         ggplot2::theme_bw() +
+         ggplot2::theme(plot.title = element_text(hjust = 0.5, size = 14),)
+
+plot
+```
+
+By the above boxplots, notice that when k = 2, we have the largest mse and medians of mse, while the statistics of k = 10 are quite smaller. Thu7s, we can conclude that as the k increases, the cv mse decreases.

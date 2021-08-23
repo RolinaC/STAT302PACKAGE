@@ -7,9 +7,7 @@
 my_rf_cv(k)
 }
 \arguments{
-\item{train}{A training data frame.}
-
-\item{k_cv}{Integer representing the number of folds.}
+\item{k}{Integer representing the number of folds.}
 }
 \value{
 A numeric with the cross-validation error.

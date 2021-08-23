@@ -2,10 +2,10 @@
 #'
 #' This function performs Cross-Validation Random Forest Cross-Validation.
 #'
-#' @param train A training data frame.
-#' @param k_cv Integer representing the number of folds.
+#' @param k Integer representing the number of folds.
 #' @keywords inference, prediction
-#'
+#' @importFrom stats model.frame model.matrix model.response predict pt sd
+#'  na.omit
 #' @return A numeric with the cross-validation error.
 #'
 #' @examples
@@ -32,3 +32,4 @@ my_rf_cv <- function(k) {
   }
   return(mean(mse))
 }
+utils::globalVariables(c("bill_length_mm", "bill_depth_mm", "body_mass_g", "flipper_length_mm"))
