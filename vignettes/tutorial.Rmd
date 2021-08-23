@@ -49,17 +49,21 @@ This package contains four functions:\
 
 To install and use this package, run the following lines of code in console:
 
-```{r, setup, eval=FALSE}
-# install and load package
+```{r, eval=FALSE}
+# install package
 devtools::install_github("RolinaC/STAT302PACKAGE")
+```
+
+```{r, setup, include = FALSE}
 library(STAT302PACKAGE)
 
+# load other packages
 library(ggplot2)
 library(dplyr)
 library(kableExtra)
 ```
 
-Here are what we need for data
+Here are what we need for data:
 ```{r}
 data("my_penguins")
 data("my_gapminder")
@@ -110,20 +114,19 @@ Now, let's plot the model and explore more information on this.
 #get data to be fitted
 X <- model.matrix(lifeExp ~ gdpPercap + continent, data = my_gapminder)
 # calculate the actual
-y_hat <- x %*% eqn$Estimate
+y_hat <- X %*% eqn[, 1]
 y <- my_gapminder$lifeExp
 
-df <- as.data.frame(cbind(y_hat, y))
-ggplot2::ggplot(df, ggplot2::aes(x = y, y = y_hat)) +
+df <- data.frame("Actual" = y, "Fitted" = y_hat, col = my_gapminder$continent)
+ggplot2::ggplot(df, ggplot2::aes(x = Fitted, y = Actual)) +
   ggplot2::geom_point() +
   ggplot2::geom_abline(slope = 1, intercept = 0, col = "blue") + 
   ggplot2::labs(title = "Actual vs. Fitted", x = "Actual", y = "Fitted") +
   ggplot2::theme_bw() +
   ggplot2::theme(plot.title = ggplot2::element_text(hjust = 0.5))
-df
 ```
 
-Accordng to the graph, we can conclude that the model follows an excellent linear relationship since points are plotted on the best fit line.
+Accordng to the graph, we can conclude that the model follows a linear relationship since most points are plotted along the best fit line with some outliers.
 
 # my_knn_cv Tutorial
 
@@ -163,7 +166,7 @@ knn_val <- c(1:10)
 df <- data.frame(knn_val, train_err, cv_err)
 colnames(df) <- c("k_nn", "training error", "CV error")
 # style the table
-kableExtra::kable_styling(knitr::kable(my_df))
+kableExtra::kable_styling(knitr::kable(df))
   
 ```
 
