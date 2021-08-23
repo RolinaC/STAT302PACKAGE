@@ -20,7 +20,7 @@ A table of linear model parameter of \code{formula} including:
 This function fits linear regression model.
 }
 \examples{
-my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
+my_lm(mpg ~ hp + wt, data = mtcars)
 
 }
 \keyword{inference}

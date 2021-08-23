@@ -9,3 +9,5 @@ export(my_rf_cv)
 export(my_t_test)
 importFrom(magrittr,"%>%")
 importFrom(tibble,tibble)
+importFrom("stats", "filter", "model.frame", "model.matrix",
+               "model.response", "na.omit", "predict", "pt", "sd")

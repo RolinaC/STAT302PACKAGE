@@ -23,11 +23,12 @@ cross-validation misclassification error \code{cv-err}.
 This function perform Cross-Validation k-Nearest Neighbors Cross-Validation.
 }
 \examples{
-train <- na.omit(my_penguins) \%>\%
-  dplyr::select(body_mass_g, bill_length_mm,
-                bill_depth_mm,flipper_length_mm)
-cl <- na.omit(my_penguins) \%>\% dplyr::select(species)
-my_knn_cv(train, cl, 5, 10)
+data_cleaned <- na.omit(my_penguins)
+
+data_train <- data_cleaned[, c("bill_length_mm", "bill_depth_mm",
+  "flipper_length_mm", "body_mass_g")]
+  my_knn_cv(data_train, data_cleaned$species, 1, 5)
+  my_knn_cv(data_train, data_cleaned$species, 5, 5)
 
 }
 \keyword{prediction}

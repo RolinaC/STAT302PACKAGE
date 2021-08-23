@@ -12,11 +12,12 @@
 #'   cross-validation misclassification error \code{cv-err}.
 #'
 #' @examples
-#' train <- na.omit(my_penguins)
-#' train <- dplyr::select(train, 3:6)
-#' cl <- na.omit(my_penguins) %>%
-#'   dplyr::select(species)
-#' my_knn_cv(train, cl, 5, 10)
+#' data_cleaned <- na.omit(my_penguins)
+#'
+#' data_train <- data_cleaned[, c("bill_length_mm", "bill_depth_mm",
+#'   "flipper_length_mm", "body_mass_g")]
+#'   my_knn_cv(data_train, data_cleaned$species, 1, 5)
+#'   my_knn_cv(data_train, data_cleaned$species, 5, 5)
 #'
 #' @export
 
@@ -44,7 +45,6 @@ my_knn_cv <- function(train, cl, k_nn, k_cv) {
     # predict K-nearest
     result <-  class::knn(train = train_train, test = train_test,
                           cl = cl_train, k = k_nn)
-    my_class[fold_i] <- as.character(result)
     # compute missclassification rate
     cv_err[i] <- mean(result != cl_test)
   }
