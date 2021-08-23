@@ -1,0 +1,27 @@
+#' Random Forest Cross-Validation Function
+#'
+#' This function performs Cross-Validation Random Forest Cross-Validation.
+#'
+#' @param train A training data frame.
+#' @param k_cv Integer representing the number of folds.
+#' @keywords inference, prediction
+#'
+#' @return A numeric with the cross-validation error.
+#'
+#' @examples
+#' my_rf_cv(5)
+#'
+#' @export
+my_rf_cv <- function(k) {
+  fold <- sample(rep(1:k, length = nrow(data_cleaned)))
+  mse <- c()
+  for (i in 1:k) {
+    training <- filter(data_cleaned, fold != i)
+    testing <- filter(data_cleaned, fold == i)
+    rf_m <- randomForest(body_mass_g ~ bill_length_mm + bill_depth_mm + flipper_length_mm,
+                         data = training, ntree = 100)
+    pred <- predict(rf_m, testing[, -1])
+    mse[i] <- mean((testing$body_mass_g - pred)^2)
+  }
+  return(mean(mse))
+}

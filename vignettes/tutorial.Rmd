@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 library(STAT302PACKAGE)
 ```
 
-### Introduction
+# Introduction
 
 This package contains four functions:\
 * my_t.test : run a one sample t-test\
@@ -37,12 +37,22 @@ devtools::install_github("RolinaC/STAT302PACKAGE")
 library(STAT302PACKAGE)
 ```
 
-Here are the data we need:
-
+Here are what we need for data
 ```{r}
 data("my_penguins")
 data("my_gapminder")
-set.seed(302)
 ```
 
-## my_t.test Tutorial
+# my_t.test Tutorial
+
+Here we make a reference to the 'lifeExp' data from 'my_gapminder' to show how the my_t.test functions. Note that the 'lifeExp' indicates the life expectancy at birth.
+
+### Two-sided Test
+
+First, we demonstrate a test of the hypothesis that is two-sided and the null
+hypothesis is 60 indicating the mean life expectancy is 60 years; meanwhile, the alternative hypothesis holds that the mean life expectancy is not 60 years.
+
+```{r}
+two_side <- my_t.test(my_gapminder$lifeExp, "two.sided", 60)
+```
+The p-value, `r two_side$p_val`, is 
