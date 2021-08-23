@@ -15,10 +15,16 @@
 #' train <- na.omit(my_penguins) %>%
 #'   dplyr::select(body_mass_g, bill_length_mm,
 #'                 bill_depth_mm,flipper_length_mm)
-#' cl <- na.omit(my_penguins) %>% dplyr::select(species)
+#' cl <- na.omit(my_penguins) %>%
+#'   dplyr::select(species)
 #' my_knn_cv(train, cl, 5, 10)
 #'
 #' @export
+
+library(class)
+library(tidyverse)
+library(palmerpenguins)
+library(randomForest)
 
 my_knn_cv <- function(train, cl, k_nn, k_cv) {
   # split data into k_cv folds, randomly with equal probability
@@ -50,4 +56,44 @@ my_knn_cv <- function(train, cl, k_nn, k_cv) {
   cv_err <- mean(mis)
   result <- list("class" = pred_class, "cv_err" = cv_err)
   return(result)
+}
+
+my_knn_cv <- function(train, cl, k_nn, k_cv) {
+  # fold into k_cv
+  fold <- base::sample(base::rep(1:k_cv, length = nrow(train)))
+
+  # store prediction
+  pred_class <- base::rep(NA, length(cl))
+  #store the missclassification rate
+  cv_err <- base::rep(NA, k_cv)
+
+  for (i in 1:k_cv) {
+
+    fold_i <- base::which(fold == i)
+
+    # split train into train and test
+    train_train <- train[-fold_i,]
+    train_test <- train[fold_i,]
+
+    # split cl into train and test
+    cl_train <- cl[-fold_i]
+    cl_test <- cl[fold_i]
+
+    # predict K-nearest
+    result <-  class::knn(train = train_train, test = train_test,
+                          cl = cl_train, k = k_nn)
+    my_class[fold_i] <- as.character(result)
+    # compute missclassification rate
+    cv_err[i] <- mean(result != cl_test)
+  }
+
+  # prediction output class
+  class <- class::knn(train = train, test = train, cl = cl, k = k_nn)
+
+  # store class and cv_error as a list
+  cv_err <- sum(cv_err) / k_cv
+  result <- list("class" = class, "cv_error" = cv_err)
+
+  return(result)
+
 }
