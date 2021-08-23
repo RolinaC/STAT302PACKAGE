@@ -15,9 +15,9 @@
 #'   alternative, and the p-value.
 #'
 #' @examples
-#' my_t.test(my_gapminder$lifeExp, "two.sided", 60)
-#' my_t.test(my_gapminder$lifeExp, "less", 60)
-#' my_t.test(my_gapminder$lifeExp, "greater", 60)
+#' my_t_test(my_gapminder$lifeExp, "two.sided", 60)
+#' my_t_test(my_gapminder$lifeExp, "less", 60)
+#' my_t_test(my_gapminder$lifeExp, "greater", 60)
 #'
 #' @export
 #'
