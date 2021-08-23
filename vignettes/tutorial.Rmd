@@ -207,8 +207,9 @@ plot <- ggplot2::ggplot(data = plot_df,
                        y = "CV estimated MSE") +
          ggplot2::theme_bw() +
          ggplot2::theme(plot.title = element_text(hjust = 0.5, size = 14),)
-
 plot
+
 ```
 
-By the above boxplots, notice that when k = 2, we have the largest mse and medians of mse, while the statistics of k = 10 are quite smaller. Thu7s, we can conclude that as the k increases, the cv mse decreases.
+By the above boxplots, notice that when k = 2, we have the largest mse and medians of mse, while the statistics of k = 10 are quite smaller. Thus, we can conclude that as the k increases, the cv mse decreases.
+
