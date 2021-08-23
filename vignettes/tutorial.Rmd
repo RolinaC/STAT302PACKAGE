@@ -62,4 +62,5 @@ Second, we demonstrate two single-tailed tests of the hypothesis, one lower tail
 
 ```{r}
 low <- my_t_test(my_gapminder$lifeExp, "less", 60)
+up <- my_t_test(my_gapminder$lifeExp, "greater", 60)
 ```
