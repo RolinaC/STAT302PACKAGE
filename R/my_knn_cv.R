@@ -12,9 +12,8 @@
 #'   cross-validation misclassification error \code{cv-err}.
 #'
 #' @examples
-#' train <- na.omit(my_penguins) %>%
-#'   dplyr::select(body_mass_g, bill_length_mm,
-#'                 bill_depth_mm,flipper_length_mm)
+#' train <- na.omit(my_penguins)
+#' train <- dplyr::select(train, 3:6)
 #' cl <- na.omit(my_penguins) %>%
 #'   dplyr::select(species)
 #' my_knn_cv(train, cl, 5, 10)
@@ -58,5 +57,4 @@ my_knn_cv <- function(train, cl, k_nn, k_cv) {
   result <- list("class" = class, "cv_error" = cv_err)
 
   return(result)
-
 }
