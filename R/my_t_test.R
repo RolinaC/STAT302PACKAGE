@@ -21,7 +21,7 @@
 #'
 #' @export
 #'
-my_t.test <- function(x, alternative, mu) {
+my_t_test <- function(x, alternative, mu) {
   # calculate t value
   test_stat <- (mean(x) - mu) / (sd(x) / sqrt(length(x)))
   # calculate degree of freedom

@@ -22,7 +22,7 @@ library(STAT302PACKAGE)
 # Introduction
 
 This package contains four functions:\
-* my_t.test : run a one sample t-test\
+* my_t_test : run a one sample t-test\
 * my_lm : fit data into a linear model\
 * my_knn_cv : take n-nearest neighbors as model to run k-fold cross validation.\
 * my_rf_cv : perform random forest cross validation\
@@ -53,7 +53,7 @@ First, we demonstrate a test of the hypothesis that is two-sided and the null
 hypothesis is 60 indicating the mean life expectancy is 60 years; meanwhile, the alternative hypothesis holds that the mean life expectancy is not 60 years.
 
 ```{r}
-two_side <- my_t.test(my_gapminder$lifeExp, "two.sided", 60)
+two_side <- my_t_test(my_gapminder$lifeExp, "two.sided", 60)
 ```
 The p-value, `r two_side$p_val`, is 
 
@@ -61,5 +61,5 @@ The p-value, `r two_side$p_val`, is
 Second, we demonstrate two single-tailed tests of the hypothesis, one lower tail and one upper tail. Both has the null hypothesis saying 60 indicating the mean life expectancy is 60 years anf the alternative hypothesis holds that the mean life expectancy is not 60 years.
 
 ```{r}
-low <- my_t.test(my_gapminder$lifeExp, "two.sided", 60)
+low <- my_t_test(my_gapminder$lifeExp, "less", 60)
 ```
