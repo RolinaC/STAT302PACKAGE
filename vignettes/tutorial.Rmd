@@ -56,3 +56,10 @@ hypothesis is 60 indicating the mean life expectancy is 60 years; meanwhile, the
 two_side <- my_t.test(my_gapminder$lifeExp, "two.sided", 60)
 ```
 The p-value, `r two_side$p_val`, is 
+
+
+Second, we demonstrate two single-tailed tests of the hypothesis, one lower tail and one upper tail. Both has the null hypothesis saying 60 indicating the mean life expectancy is 60 years anf the alternative hypothesis holds that the mean life expectancy is not 60 years.
+
+```{r}
+low <- my_t.test(my_gapminder$lifeExp, "two.sided", 60)
+```
