@@ -18,3 +18,31 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(STAT302PACKAGE)
 ```
+
+### Introduction
+
+This package contains four functions:\
+* my_t.test : run a one sample t-test\
+* my_lm : fit data into a linear model\
+* my_knn_cv : take n-nearest neighbors as model to run k-fold cross validation.\
+* my_rf_cv : perform random forest cross validation\
+
+<br>
+
+To install and use this package, run the following lines of code in console:
+
+```{r, eval=FALSE}
+# install and load package
+devtools::install_github("RolinaC/STAT302PACKAGE")
+library(STAT302PACKAGE)
+```
+
+Here are the data we need:
+
+```{r}
+data("my_penguins")
+data("my_gapminder")
+set.seed(302)
+```
+
+## my_t.test Tutorial

@@ -13,7 +13,7 @@ The goal of STAT302PACKAGE is to demonstrate how to build a package
 You can install the released version of STAT302PACKAGE from GitHub using:
 
 ``` r
-install.packages("STAT302PACKAGE")
+devtools::install.packages("STAT302PACKAGE")
 ```
 
 To view vignettes, run the following code:
